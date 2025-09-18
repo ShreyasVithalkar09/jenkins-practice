@@ -1,0 +1,36 @@
+pipeline {
+    agent {
+        docker { 
+            image 'node:16-alpine' 
+            args '-p 3000:3000' }
+    }
+    
+    environment {
+        NPM_CONFIG_CACHE = "${WORKSPACE}/.npm-cache"
+    }
+    
+    stages {
+        stage ('backend') {
+            steps {
+                dir('backend') {
+                    sh '''
+                        mkdir -p $NPM_CONFIG_CACHE
+                        npm install
+                        nohup npm start &
+                        sleep 10
+                        echo "Checking if server responds..."
+                        curl -s http://localhost:3000 || echo "Server not reachable"
+                        
+                    '''
+                }
+            }
+        }
+        
+        }
+        
+    post {
+        always {
+            echo "Pipeline finished."
+        }
+    }
+}
