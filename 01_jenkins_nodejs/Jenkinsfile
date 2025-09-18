@@ -1,0 +1,46 @@
+pipeline {
+    agent none
+    
+    stages {
+        // Stage 1 - frontend
+        stage (Front-end) {
+            agent {
+                docker { 
+                    image 'node:16-alpine' 
+                    args '-p 3001:3001' }
+            }
+            
+            steps {
+                echo 'Creating Vite React App...'
+                sh 'npm create vite@latest my-react-app -- --template react'
+                sh 'ls -la'
+                
+                sh 'cd my-react-app'
+                
+                // Install dependencies
+                echo 'Installing frontend dependencies...'
+                sh 'npm install'
+                
+                // make a static build
+                echo 'Building Vite React App for production...'
+                sh 'npm run build'
+                
+                echo 'Starting Vite React app preview server (in background)...'
+                
+                sh 'npm run preview -- --port 3001 &'
+                
+                
+                // Wait a few seconds for the server to start
+                sh 'sleep 15'
+                
+                sh 'curl -I http://localhost:3001 || echo "Frontend not reachable"'
+                
+                echo 'Stopping Vite React app preview server...'
+                sh 'kill $(jobs -p)'
+                
+                echo 'Vite React App stage completed.'
+            
+            }
+        }
+    }
+}
