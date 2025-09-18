@@ -9,8 +9,14 @@ pipeline {
                     image 'node:16-alpine' 
                     args '-p 3001:3001' }
             }
+
+            environment {
+                NPM_CONFIG_CACHE = "${WORKSPACE}/.npm-cache"
+            }
             
             steps {
+                sh 'mkdir -p $NPM_CONFIG_CACHE'
+                
                 echo 'Creating Vite React App...'
                 sh 'npm create vite@latest my-react-app -- --template react'
                 sh 'ls -la'
