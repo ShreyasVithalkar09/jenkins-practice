@@ -12,7 +12,7 @@ pipeline {
                 dir('01_jenkins_nodejs/backend') {
                     sh '''
                         echo "Installing necessary dependencies"
-                        apk add --no-cache curl
+                        # apk add --no-cache curl
                         npm install
                         
                         echo "Building runtime image for container"
@@ -33,7 +33,7 @@ pipeline {
                         echo "Waiting for server to start..."
                         sleep 5
 
-                        curl -v http://localhost:3000 || echo "Server not reachable"
+                        # curl -v http://localhost:3000 || echo "Server not reachable"
                         
                     '''
                 }
