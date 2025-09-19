@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage ('backend') {
             steps {
-                dir('backend') {
+                dir('01_jenkins_nodejs/backend') {
                     sh '''
                         mkdir -p $NPM_CONFIG_CACHE
                         npm install
