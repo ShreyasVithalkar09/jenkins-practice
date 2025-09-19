@@ -1,25 +1,42 @@
 pipeline {
     agent {
         docker { 
-            image 'node:20-alpine' 
-            args '-p 3000:3000' }
+            image 'node:20-alpine'  }
     }
     
     environment {
+        BACKEND_CONTAINER = "jenkins-backend" // container name
         NPM_CONFIG_CACHE = "${WORKSPACE}/.npm-cache"
     }
     
     stages {
-        stage ('backend') {
+        stage ('Backend') {
             steps {
                 dir('01_jenkins_nodejs/backend') {
                     sh '''
-                        mkdir -p $NPM_CONFIG_CACHE
+                        echo "Installing necessary dependencies"
+                        apk add --no-cache curl
                         npm install
-                        nohup npm start &
-                        sleep 10
-                        echo "Checking if server responds..."
-                        curl -s http://localhost:3000 || echo "Server not reachable"
+                        
+                        echo "Building runtime image for container"
+
+                        cat > Dockerfile <<'EOF'
+                        FROM node:20-alpine
+                        WORKDIR /app
+                        COPY . .
+                        RUN npm install
+                        CMD ["npm", "start"]
+                        EOF
+
+                        docker build -t backend-image
+
+                        echo "Starting backend container"
+                        docker run -d --name $BACKEND_CONTAINER -p 3000:3000 backend-image
+
+                        echo "Waiting for server to start..."
+                        sleep 5
+
+                        curl -v http://localhost:3000 || echo "Server not reachable"
                         
                     '''
                 }
@@ -30,7 +47,7 @@ pipeline {
         
     post {
         always {
-            echo "Pipeline finished."
+            echo "Pipeline finished. Backend container is running in detached mode."
         }
     }
 }
