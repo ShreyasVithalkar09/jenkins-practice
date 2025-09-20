@@ -23,6 +23,9 @@ pipeline {
                     echo "Listing files before node packages install"
                     ls -la
 
+                    npm cache clean --force
+
+
                     echo "Started node packages install"
                     npm install 
 
