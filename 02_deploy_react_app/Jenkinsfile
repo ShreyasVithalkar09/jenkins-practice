@@ -17,9 +17,9 @@ pipeline {
                 }
 
                 // ✅ Checkout fresh code
-                checkout sc
+                checkout scm
 
-                
+
                 dir('02_deploy_react_app') {
                     sh '''
                     echo "Starting the Build process"
