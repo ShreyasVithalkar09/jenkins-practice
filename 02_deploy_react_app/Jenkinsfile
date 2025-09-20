@@ -11,15 +11,7 @@ pipeline {
 
             steps {
 
-                script {
-                    // ✅ Clean the whole workspace first
-                    deleteDir()
-                }
-
-                // ✅ Checkout fresh code
-                checkout scm
-
-
+                
                 dir('02_deploy_react_app') {
                     sh '''
                     echo "Starting the Build process"
@@ -28,9 +20,7 @@ pipeline {
 
                     ls -la
 
-                    npm ci --verbose
-
-
+                    npm install
 
                     npm run build
 
