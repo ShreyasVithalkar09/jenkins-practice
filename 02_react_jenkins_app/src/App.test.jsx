@@ -4,10 +4,10 @@ import App from "./App";
 test("renders heading and subheading", () => {
   render(<App />);
   // Check if main heading is present
-  expect(screen.getByText(/React Jenkins/i)).toBeInTheDocument();
+  expect(screen.getByText("React Jenkins")).toBeInTheDocument();
   // Check if subheading is present
   expect(
-    screen.getByText(/This is my React app for Jenkins CI\/CD/i)
+    screen.getByText("This is my React app for Jenkins CI/CD")
   ).toBeInTheDocument();
 });
 

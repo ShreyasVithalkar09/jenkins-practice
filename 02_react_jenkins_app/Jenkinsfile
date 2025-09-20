@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage ('Build') {
+            agent {
+                docker {
+                    image "node:24-alpine"
+                    reuseNode true
+                }
+            }
+
+            steps {
+
+                
+                dir('02_react_jenkins_app') {
+                    sh '''
+                    
+                    echo "Starting the Build process"
+                    npm --version
+                    node --version
+
+                    ls -la
+
+                '''
+                }
+                
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline finished!"
+        }
+    }
+}
