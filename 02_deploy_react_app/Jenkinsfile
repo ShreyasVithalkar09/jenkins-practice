@@ -9,15 +9,17 @@ pipeline {
                 }
             }
 
-            script {
+            steps {
+
+                script {
                     // ✅ Clean the whole workspace first
                     deleteDir()
                 }
 
                 // ✅ Checkout fresh code
                 checkout sc
+
                 
-            steps {
                 dir('02_deploy_react_app') {
                     sh '''
                     echo "Starting the Build process"
