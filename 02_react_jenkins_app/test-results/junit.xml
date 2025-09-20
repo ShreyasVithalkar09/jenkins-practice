@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="2" failures="0" errors="0" time="0.106979708">
+    <testsuite name="src/App.test.jsx" timestamp="2025-09-20T20:23:09.890Z" hostname="Shreyass-MacBook-Air.local" tests="2" failures="0" errors="0" skipped="0" time="0.106979708">
+        <testcase classname="src/App.test.jsx" name="renders heading and subheading" time="0.0295425">
+        </testcase>
+        <testcase classname="src/App.test.jsx" name="increments counter when button is clicked" time="0.076589">
+        </testcase>
+    </testsuite>
+</testsuites>
