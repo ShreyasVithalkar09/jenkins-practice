@@ -74,6 +74,11 @@ pipeline {
     
     post {
         always {
+            script {
+                dir('02_react_jenkins_app') {
+                    junit 'test-results/junit.xml'
+                }
+            }
             echo "Pipeline finished!"
         }
     }
