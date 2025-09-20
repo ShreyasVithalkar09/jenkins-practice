@@ -19,7 +19,14 @@ pipeline {
                     echo "Starting the Build process"
                     npm --version
                     node --version
+                    
+                    echo "Listing files before node packages install"
+                    ls -la
 
+                    echo "Started node packages install"
+                    npm install 
+
+                    echo "Listing files after node packages install"
                     ls -la
 
                 '''
