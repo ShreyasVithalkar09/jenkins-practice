@@ -70,6 +70,25 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy') {
+            agent {
+                docker {
+                    image 'node:20-alpine'
+                }
+            }
+
+            steps {
+                script {
+                    dir('02_react_jenkins_app') {
+                        sh '''
+                            npm install netlify-cli
+                            netlify --version
+                        '''
+                    }
+                }
+            }
+        }
     }
     
     post {
