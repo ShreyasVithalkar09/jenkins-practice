@@ -47,6 +47,29 @@ pipeline {
                 }
             }
         }
+
+        stage('Test') {
+            agent {
+                docker {
+                    image "node:20-alpine"
+                    // Removed 'reuseNode true' to prevent file permission conflicts.
+                }
+            }
+
+            steps {
+                script {
+                    dir('02_react_jenkins_app') {
+                        sh '''
+                            echo "Checking Build..."
+                            test -f dist/index.html
+
+                            echo "Starting tests..."
+                            npm run test
+                        '''
+                    }
+                }
+            }
+        }
     }
     
     post {
