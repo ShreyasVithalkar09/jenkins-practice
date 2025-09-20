@@ -2,48 +2,51 @@ pipeline {
     agent any
 
     stages {
-        stage ('Build') {
+        stage('Build') {
             agent {
                 docker {
                     image "node:20-alpine"
+                    // Removed 'reuseNode true' to prevent file permission conflicts.
                 }
             }
-
+    
             steps {
-
-                
-                dir('02_react_jenkins_app') {
-                    sh '''
-                    
-                    echo "Starting the Build process"
-                    npm --version
-                    node --version
-                    
-                    echo "Listing files before node packages install"
-                    ls -la
-
-                    npm cache clean --force
-
-                    rm -rf node_modules
-
-                    ls -la
-
-                    echo "Started node packages install"
-                    npm install 
-
-                    echo "Listing files after node packages install"
-                    ls -la
-
-                '''
+                script {
+                    dir('02_react_jenkins_app') {
+                        sh '''
+                        echo "Starting the Build process"
+                        npm --version
+                        node --version
+    
+                        # This is the new command to set the npm cache to a local, writable directory.
+                        # It solves the EACCES (permission denied) error.
+                        npm config set cache .npm-cache --location=project
+    
+                        echo "Listing files before node packages install"
+                        ls -la
+    
+                        # Clean the local cache and remove node_modules to ensure a fresh install
+                        npm cache clean --force
+                        rm -rf node_modules
+    
+                        ls -la
+    
+                        echo "Started node packages install"
+                        npm install
+    
+                        echo "Listing files after node packages install"
+                        ls -la
+                        '''
+                    }
                 }
-                
             }
         }
     }
-
+    
     post {
         always {
             echo "Pipeline finished!"
         }
     }
+
 }
