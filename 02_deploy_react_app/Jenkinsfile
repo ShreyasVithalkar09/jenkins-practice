@@ -28,7 +28,9 @@ pipeline {
 
                     ls -la
 
-                    npm ci
+                    npm ci --verbose
+
+
 
                     npm run build
 
