@@ -14,6 +14,9 @@ pipeline {
                 
                 dir('02_deploy_react_app') {
                     sh '''
+
+                    deleteDir()
+                    
                     echo "Starting the Build process"
                     npm --version
                     node --version
