@@ -25,6 +25,7 @@ pipeline {
 
                     npm cache clean --force
 
+                    rm -rf node_modules
 
                     echo "Started node packages install"
                     npm install 
