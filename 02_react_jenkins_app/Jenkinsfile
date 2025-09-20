@@ -34,8 +34,14 @@ pipeline {
                         echo "Started node packages install"
                         npm install
     
-                        echo "Listing files after node packages install"
+                        echo "Starting the build..."
+
+                        npm run build
+
+                        echo "Build completed"
                         ls -la
+
+                        
                         '''
                     }
                 }
