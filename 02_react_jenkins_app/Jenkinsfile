@@ -82,8 +82,8 @@ pipeline {
                 script {
                     dir('02_react_jenkins_app') {
                         sh '''
-                            npm install netlify-cli
-                            netlify --version
+                            echo "using npx to temporarily install cli not full one"
+                            npx netlify --version
                         '''
                     }
                 }
