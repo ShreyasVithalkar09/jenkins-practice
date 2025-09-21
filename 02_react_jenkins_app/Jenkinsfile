@@ -39,14 +39,11 @@ pipeline {
     
                         echo "Started node packages install"
                         npm install
-                        npm install archiver
+                        
     
                         echo "Starting the build..."
 
                         npm run build
-                            
-                        # This will zip the build for future use
-                        node dirzip.js
 
                         echo "Build completed"
                         ls -la
@@ -83,12 +80,28 @@ pipeline {
         }
 
         stage('Deploy') {
+             agent {
+                docker {
+                    image "node:20-alpine"
+                    args '-t'
+                    // Removed 'reuseNode true' to prevent file permission conflicts.
+                }
+            }
+
             steps {
                 script {
                     dir('02_react_jenkins_app') {
                         withCredentials([string(credentialsId: 'netlify-api-token', variable: 'NETLIFY_TOKEN')]) {
                             sh '''
                                 echo "Starting the deployment process..."
+
+                                npm install archiver
+
+                                echo "Checking if Build exists..."
+                                test -f dist/index.html
+
+                                # This will zip the build for future use
+                                node dirzip.js
                                 
                                 curl -H "Authorization: Bearer $NETLIFY_TOKEN" \
                                      -H "Content-Type: application/zip" \
