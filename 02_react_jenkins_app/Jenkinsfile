@@ -48,6 +48,9 @@ pipeline {
                         echo "Build completed"
                         ls -la
 
+                        // Archive the build directory so it can be used by other stages
+                        stash name: 'build-archive', includes: '02_react_jenkins_app/dist/**/*'
+
                         
                         '''
                     }
@@ -92,6 +95,9 @@ pipeline {
             steps {
                 script {
                     dir('02_react_jenkins_app') {
+                        // Retrieve the build directory from the stash
+                        unstash 'build-archive'
+                        
                         withCredentials([string(credentialsId: 'netlify-api-token', variable: 'NETLIFY_TOKEN')]) {
                             sh '''
                                 echo "Starting the deployment process..."
