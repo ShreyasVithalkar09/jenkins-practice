@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        NETLIFY_BUILD_HOOK = credentials('NETLIFY_BUILD_HOOK')
+        NETLIFY_TOKEN = credentials('NETLIFY_TOKEN')
+        SITE_ID = credentials('SITE_ID')
     }
 
     stages {
@@ -81,17 +82,20 @@ pipeline {
             steps {
                 script {
                     dir('02_react_jenkins_app') {
-                        sh '''
-                            echo "Starting the deployment process..."
-                            STATUS=$(curl -X POST -s -o /dev/null -w "%{http_code}" "$NETLIFY_BUILD_HOOK")
+                        withCredentials([string(credentialsId: 'netlify-api-token', variable: 'NETLIFY_TOKEN')]) {
+                            sh '''
+                                echo "Starting the deployment process..."
+                                
+                                curl -H "Authorization: Bearer $NETLIFY_TOKEN" \
+                                     -H "Content-Type: application/zip" \
+                                     --data-binary "@dist.zip" \
+                                     https://api.netlify.com/api/v1/sites/$SITE_ID/deploys
 
-                            if [ "$STATUS" -ne 200 ]; then
-                                echo "Deployement failed with status code:: $STATUS"
-                                exit 1
-                            fi
 
-                            echo "Deployment Success"
-                        '''
+                                echo "Deployment Success"
+                            '''
+                        }
+                        
                     }
                 }
             }
