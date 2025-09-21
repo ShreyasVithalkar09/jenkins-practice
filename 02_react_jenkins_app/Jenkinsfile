@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        NETLIFY_BUILD_HOOK = credentials('NETLIFY_BUILD_HOOK')
+    }
+
     stages {
         stage('Build') {
             agent {
@@ -74,19 +78,14 @@ pipeline {
         }
 
         stage('Deploy') {
-            agent {
-                docker {
-                    image 'node:20-alpine'
-                    args '-t'
-                }
-            }
-
             steps {
                 script {
                     dir('02_react_jenkins_app') {
                         sh '''
-                            echo "using npx to temporarily install cli not full one"
-                            npm exec -- netlify --version
+                            echo "Starting the deployment process..."
+                            curl -X POST -s -o /dev/null -w "%{http_code}" "$NETLIFY_BUILD_HOOK"
+
+                            echo "Deployment Success"
                         '''
                     }
                 }
