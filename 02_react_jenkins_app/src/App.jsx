@@ -17,6 +17,7 @@ function App() {
         </a>
       </div>
       <h1>React Jenkins</h1>
+      <h2>React app deployed to Netlify</h2>
       <h3>This is my React app for Jenkins CI/CD</h3>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
