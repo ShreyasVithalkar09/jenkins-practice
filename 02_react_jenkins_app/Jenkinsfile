@@ -39,6 +39,7 @@ pipeline {
     
                         echo "Started node packages install"
                         npm install
+                        npm install archiver
     
                         echo "Starting the build..."
 
