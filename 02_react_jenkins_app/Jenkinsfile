@@ -43,12 +43,9 @@ pipeline {
                         echo "Starting the build..."
 
                         npm run build
-
-                        echo "Installing zip utility..."
-                        docker exec -u 0 "$JENKINS_AGENT_ID" apk add --no-cache zip
                             
                         # This will zip the build for future use
-                        zip -r dist.zip dist
+                        node dirzip.js
 
                         echo "Build completed"
                         ls -la
