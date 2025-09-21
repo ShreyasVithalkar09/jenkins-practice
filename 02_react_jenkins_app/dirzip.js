@@ -1,8 +1,14 @@
-import fs from "fs"
-import archiver from "archiver";
+import fs from 'fs';
+import archiver from 'archiver';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// The path and url modules are used to get the directory name in ES module scope
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // The output file path
-const output = fs.createWriteStream(__dirname + '/dist.zip');
+const output = fs.createWriteStream(path.join(__dirname, 'dist.zip'));
 const archive = archiver('zip', {
 zlib: { level: 9 } // Sets the compression level
 });
