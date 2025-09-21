@@ -43,6 +43,8 @@ pipeline {
                         echo "Starting the build..."
 
                         npm run build
+                        # This will zip the build for future use
+                        zip -r dist.zip dist
 
                         echo "Build completed"
                         ls -la
