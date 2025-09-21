@@ -74,7 +74,7 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {
-                    image 'node:20-alpine'
+                    image 'shreyasv8/netlify-test-practice'
                 }
             }
 
@@ -83,7 +83,7 @@ pipeline {
                     dir('02_react_jenkins_app') {
                         sh '''
                             echo "using npx to temporarily install cli not full one"
-                            npx netlify --version
+                            netlify --version
                         '''
                     }
                 }
