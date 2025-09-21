@@ -31,8 +31,6 @@ pipeline {
                         echo "Listing files before node packages install"
                         ls -la
     
-                        # Clean the local cache and remove node_modules to ensure a fresh install
-                        npm cache clean --force
                         rm -rf node_modules
     
                         ls -la
