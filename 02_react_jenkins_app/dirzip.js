@@ -1,5 +1,5 @@
-const { exec } = require('child_process');
-const path = require('path');
+import path from "path";
+import { exec } from "child_process";
 
 const directoryPathToZip = 'dist'; // Replace with the actual directory to zip
 const zipFileName = 'dist.zip'; // Desired name for the zip file
