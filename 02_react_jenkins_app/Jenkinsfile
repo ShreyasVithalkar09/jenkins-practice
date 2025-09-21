@@ -83,7 +83,12 @@ pipeline {
                     dir('02_react_jenkins_app') {
                         sh '''
                             echo "Starting the deployment process..."
-                            curl -X POST -s -o /dev/null -w "%{http_code}" "$NETLIFY_BUILD_HOOK"
+                            STATUS=$(curl -X POST -s -o /dev/null -w "%{http_code}" "$NETLIFY_BUILD_HOOK")
+
+                            if ["$STATUS" -ne 200]; then
+                                echo "Deployement failed with status code:: $STATUS"
+                                exit 1
+                            fi
 
                             echo "Deployment Success"
                         '''
