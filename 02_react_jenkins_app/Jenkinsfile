@@ -85,7 +85,7 @@ pipeline {
                             echo "Starting the deployment process..."
                             STATUS=$(curl -X POST -s -o /dev/null -w "%{http_code}" "$NETLIFY_BUILD_HOOK")
 
-                            if ["$STATUS" -ne 200]; then
+                            if [ "$STATUS" -ne 200 ]; then
                                 echo "Deployement failed with status code:: $STATUS"
                                 exit 1
                             fi
