@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NETLIFY_TOKEN = credentials('NETLIFY_TOKEN')
+        // NETLIFY_TOKEN = credentials('NETLIFY_TOKEN')
         SITE_ID = credentials('SITE_ID')
     }
 
