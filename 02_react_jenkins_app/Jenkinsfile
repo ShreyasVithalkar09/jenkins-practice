@@ -84,6 +84,7 @@ pipeline {
                 docker {
                     image "node:20-alpine"
                     args '-t'
+                    args '-u root'
                     // Removed 'reuseNode true' to prevent file permission conflicts.
                 }
             }
@@ -102,6 +103,12 @@ pipeline {
 
                                 # This will zip the build for future use
                                 node dirzip.js
+
+                                echo "Installing curl..."
+                                apk add --no-cache curl
+
+                                curl --help
+
                                 
                                 curl -H "Authorization: Bearer $NETLIFY_TOKEN" \
                                      -H "Content-Type: application/zip" \
