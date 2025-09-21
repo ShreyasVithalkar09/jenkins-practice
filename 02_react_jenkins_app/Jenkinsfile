@@ -12,6 +12,7 @@ pipeline {
                 docker {
                     image "node:20-alpine"
                     args '-t'
+                    args '-u root'
                     // Removed 'reuseNode true' to prevent file permission conflicts.
                 }
             }
