@@ -22,6 +22,10 @@ pipeline {
                     dir('02_react_jenkins_app') {
                         sh '''
                         echo "Starting the Build process"
+
+                        echo "Cleaning workspace first..."
+                        git clean -fdx
+                        
                         npm --version
                         node --version
     
