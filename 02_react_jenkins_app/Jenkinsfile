@@ -21,6 +21,9 @@ pipeline {
                 script {
                     dir('02_react_jenkins_app') {
                         sh '''
+
+                        apk add --no-cache git
+                        
                         echo "Starting the Build process"
 
                         echo "Cleaning workspace first..."
