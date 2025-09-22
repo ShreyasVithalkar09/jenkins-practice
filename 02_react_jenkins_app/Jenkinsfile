@@ -27,6 +27,7 @@ pipeline {
                         echo "Starting the Build process"
 
                         echo "Cleaning workspace first..."
+                        git config --global --add safe.directory "$PWD"
                         git clean -fdx
                         
                         npm --version
