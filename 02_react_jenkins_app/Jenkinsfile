@@ -47,11 +47,10 @@ pipeline {
                         echo "Build completed"
                         ls -la
 
+                        '''
+
                         // Archive the build directory so it can be used by other stages
                         stash name: 'build-archive', includes: '02_react_jenkins_app/dist/**/*'
-
-                        
-                        '''
                     }
                 }
             }
