@@ -25,8 +25,9 @@ pipeline {
                     }
                 }
             }
+        }
 
-            stage("Test") {
+         stage("Test") {
                 steps {
                     script {
                         dir("04_todo_node_jenkins") {
@@ -41,7 +42,6 @@ pipeline {
                     }
                 }
             }
-        }
     }
 
     post {
