@@ -1,0 +1,58 @@
+pipeline {
+    agent {
+        docker {
+            image "node:20-alpine",
+            args "-t",
+            args "-u root"
+        }
+    }
+
+    stages {
+        stage("Build") {
+            steps {
+                script {
+                    dir("04_todo_node_jenkins")  {
+                        sh '''
+                            ls -la
+                            echo "Starting Build process..."
+
+                            npm install
+
+                            ls -la
+
+                            echo "Build complete"
+                        '''
+                    }
+                }
+            }
+
+            stage("Test") {
+                steps {
+                    script {
+                        dir("04_todo_node_jenkins") {
+                            sh '''
+                                echo "Starting Test..."
+
+                                npm test
+
+                                echo "Tests complete"
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                dir ("04_todo_node_jenkins") {
+                    junit 'reports/junit.xml'
+                }
+            }
+        }
+
+        echo "Pipeline finished!"
+    }
+}

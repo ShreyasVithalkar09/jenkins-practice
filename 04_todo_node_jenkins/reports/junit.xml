@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="6" failures="0" errors="0" time="0.26">
+  <testsuite name="Todo API" errors="0" failures="0" skipped="0" timestamp="2025-09-24T18:36:18" time="0.237" tests="6">
+    <testcase classname="Todo API should return all todos" name="Todo API should return all todos" time="0.016" file="tests/todo.test.js">
+    </testcase>
+    <testcase classname="Todo API should return a single todo by id" name="Todo API should return a single todo by id" time="0.004" file="tests/todo.test.js">
+    </testcase>
+    <testcase classname="Todo API should return 404 for invalid todo id" name="Todo API should return 404 for invalid todo id" time="0.002" file="tests/todo.test.js">
+    </testcase>
+    <testcase classname="Todo API should create a new todo" name="Todo API should create a new todo" time="0.008" file="tests/todo.test.js">
+    </testcase>
+    <testcase classname="Todo API should update an existing todo" name="Todo API should update an existing todo" time="0.003" file="tests/todo.test.js">
+    </testcase>
+    <testcase classname="Todo API should delete a todo" name="Todo API should delete a todo" time="0.002" file="tests/todo.test.js">
+    </testcase>
+  </testsuite>
+</testsuites>

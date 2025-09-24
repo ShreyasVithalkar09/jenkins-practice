@@ -1,0 +1,22 @@
+{
+  "name": "04_todo_node_jenkins",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.1.4"
+  },
+  "devDependencies": {
+    "jest-junit": "^16.0.0"
+  }
+}
