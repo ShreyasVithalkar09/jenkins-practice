@@ -51,8 +51,10 @@ pipeline {
                     junit 'reports/junit.xml'
                 }
             }
+
+            echo "Pipeline finished!"
         }
 
-        echo "Pipeline finished!"
+        
     }
 }
