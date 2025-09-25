@@ -3,6 +3,9 @@ let todos = [
   { id: 2, title: "Write Tests", completed: false },
 ];
 
+export const getTodosData = () => todos;
+
+
 // Get all todos
 export const getTodos = (req, res) => {
   res.json(todos);

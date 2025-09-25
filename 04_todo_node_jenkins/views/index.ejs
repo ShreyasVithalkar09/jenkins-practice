@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todo App</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; }
+    h1 { text-align: center; }
+    form { display: flex; gap: 10px; margin-bottom: 20px; }
+    input { flex: 1; padding: 8px; }
+    button { padding: 8px 12px; cursor: pointer; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 8px; margin: 5px 0; background: #f2f2f2; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+    .done { text-decoration: line-through; color: gray; }
+  </style>
+</head>
+<body>
+  <h1>My Todos</h1>
+
+  <form id="todoForm">
+    <input type="text" id="todoInput" placeholder="Add a new todo..." required />
+    <button type="submit">Add</button>
+  </form>
+
+  <ul id="todoList">
+    <% todos.forEach(todo => { %>
+      <li data-id="<%= todo.id %>">
+        <span class="<%= todo.completed ? 'done' : '' %>"><%= todo.title %></span>
+        <div>
+          <button class="toggleBtn"><%= todo.completed ? 'Undo' : 'Done' %></button>
+          <button class="deleteBtn">Delete</button>
+        </div>
+      </li>
+    <% }) %>
+  </ul>
+
+  <script>
+    const todoForm = document.getElementById('todoForm');
+    const todoInput = document.getElementById('todoInput');
+    const todoList = document.getElementById('todoList');
+
+    // Add Todo
+    todoForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = todoInput.value.trim();
+      if (!title) return;
+
+      await fetch('/todos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title })
+      });
+
+      location.reload(); // reload to see updated list
+    });
+
+    // Event delegation for Delete & Toggle
+    todoList.addEventListener('click', async (e) => {
+      const li = e.target.closest('li');
+      if (!li) return;
+      const id = li.getAttribute('data-id');
+
+      if (e.target.classList.contains('deleteBtn')) {
+        await fetch(`/todos/${id}`, { method: 'DELETE' });
+        li.remove();
+      }
+
+      if (e.target.classList.contains('toggleBtn')) {
+        const isDone = li.querySelector('span').classList.contains('done');
+        await fetch(`/todos/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ completed: !isDone })
+        });
+        location.reload();
+      }
+    });
+  </script>
+</body>
+</html>
